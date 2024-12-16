@@ -26,6 +26,33 @@ namespace UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets
             set => m_CameraToFace = value;
         }
 
+            void Update()
+    {
+        if (Input.GetMouseButtonDown(0)) // Detects a tap or click (left mouse button or touch on mobile)
+        {
+            Vector3 spawnPoint = GetSpawnPoint();
+            Vector3 spawnNormal = Vector3.up; // Assuming you want objects to spawn upright
+
+            // Call the TrySpawnObject method to spawn the object at the determined spawn point
+            TrySpawnObject(spawnPoint, spawnNormal);
+        }
+    }
+
+    // Calculate where to spawn the object based on the user's input (click or tap)
+    Vector3 GetSpawnPoint()
+    {
+        // You can use raycasting to determine where the user tapped on the screen
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit))
+        {
+            return hit.point; // Spawn the object at the hit point on the surface
+        }
+
+        return Vector3.zero; // Return a default value if no surface is hit
+    }
+
         [SerializeField]
         [Tooltip("The list of prefabs available to spawn.")]
         List<GameObject> m_ObjectPrefabs = new List<GameObject>();
