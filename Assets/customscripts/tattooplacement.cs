@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public class PlaceObjectOnTap : MonoBehaviour
 {
-    public GameObject tattooPrefab; // The tattoo (or image) to place
+    public GameObject tattooPrefab; // The tattoo to place
     private ARRaycastManager raycastManager;
     private List<ARRaycastHit> hits = new List<ARRaycastHit>();  // For storing raycast hits
 
