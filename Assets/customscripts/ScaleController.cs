@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class ScaleController : MonoBehaviour
 {
-    public Slider scaleSlider;  // Assign in Inspector
+    public Slider scaleSlider; 
     private GameObject crabInstance; // The dynamically spawned crab_cube instance
 
     void Start()
@@ -20,11 +20,13 @@ public class ScaleController : MonoBehaviour
         }
     }
 
-    void UpdateScale(float value)
+void UpdateScale(float value)
+{
+    if (crabInstance != null)
     {
-        if (crabInstance != null)
-        {
-            crabInstance.transform.localScale = Vector3.one * value;
-        }
+        Vector3 currentScale = crabInstance.transform.localScale;
+        crabInstance.transform.localScale = new Vector3(value, currentScale.y, value);
     }
+}
+
 }
