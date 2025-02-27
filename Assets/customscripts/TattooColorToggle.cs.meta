@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: d14747f0adbdec04ea0f4a89493a0aff
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - colorToggleButton: {instanceID: 0}
+  - tattooCube: {fileID: 8944274773516998062, guid: 65595abd1f15f5a46805dc7618f49e3f,
+      type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
