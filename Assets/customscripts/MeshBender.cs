@@ -1,67 +1,77 @@
 using UnityEngine;
+using UnityEngine.UI; // Import the UI namespace for working with sliders
 
 public class MeshBender : MonoBehaviour
 {
-    public string objectTag = "CrabCube";  // Set this in Unity
-    public float bendAmount = 0.5f;
-
-    private GameObject targetObject;
-    private Mesh originalMesh;
-    private Mesh deformedMesh;
+    private GameObject crabCubePrefab; // Reference to the CrabCube prefab
+    private Mesh deformingMesh;
     private Vector3[] originalVertices;
-    private Vector3[] modifiedVertices;
+    private Vector3[] displacedVertices;
+
+    // Bend multiplier to control the intensity of the deformation
+    public float bendMultiplier = 0.5f;
+
+    // Reference to the slider for controlling the bending amount
+    public Slider bendSlider;
 
     void Start()
     {
-        // Find the spawned object using the tag
-        targetObject = GameObject.FindGameObjectWithTag(objectTag);
-        if (targetObject == null)
+        // Find the CrabCube object in the scene by tag
+        crabCubePrefab = GameObject.FindGameObjectWithTag("CrabCube");
+        if (crabCubePrefab != null)
         {
-            Debug.LogError("Object with tag " + objectTag + " not found!");
-            return;
+            // Retrieve the MeshFilter component from the CrabCube prefab and access its mesh
+            MeshFilter meshFilter = crabCubePrefab.GetComponent<MeshFilter>();
+            if (meshFilter != null)
+            {
+                deformingMesh = meshFilter.mesh;
+                originalVertices = deformingMesh.vertices;
+                displacedVertices = new Vector3[originalVertices.Length];
+
+                // Initialize displaced vertices to the original ones
+                for (int i = 0; i < originalVertices.Length; i++)
+                {
+                    displacedVertices[i] = originalVertices[i];
+                }
+            }
+            else
+            {
+                Debug.LogError("No MeshFilter found on the CrabCube prefab.");
+            }
+        }
+        else
+        {
+            Debug.LogError("No object with the tag 'CrabCube' found in the scene.");
         }
 
-        // Get the mesh
-        MeshFilter meshFilter = targetObject.GetComponent<MeshFilter>();
-        if (meshFilter == null)
+        // Make sure the slider is assigned and add a listener to update the deformation
+        if (bendSlider != null)
         {
-            Debug.LogError("MeshFilter not found on " + targetObject.name);
-            return;
+            bendSlider.onValueChanged.AddListener(OnSliderValueChanged);
         }
-
-        originalMesh = meshFilter.mesh;
-        deformedMesh = Instantiate(originalMesh);
-        meshFilter.mesh = deformedMesh;
-
-        // Store original vertices
-        originalVertices = originalMesh.vertices;
-        modifiedVertices = new Vector3[originalVertices.Length];
+        else
+        {
+            Debug.LogError("BendSlider is not assigned.");
+        }
     }
 
-    void Update()
+    // Method to apply deformation logic (e.g., bending) based on slider input
+    public void ApplyDeformation(float deformationAmount)
     {
-        if (targetObject != null)
+        // Apply deformation logic here based on the slider value (0-1)
+        for (int i = 0; i < displacedVertices.Length; i++)
         {
-            ApplyBend();
+            displacedVertices[i] = originalVertices[i] + new Vector3(0, Mathf.Sin(i * deformationAmount) * bendMultiplier, 0);
         }
+
+        // Update the mesh with the new deformed vertices
+        deformingMesh.vertices = displacedVertices;
+        deformingMesh.RecalculateNormals();
     }
 
-    void ApplyBend()
+    // Called when the slider value changes
+    private void OnSliderValueChanged(float value)
     {
-        for (int i = 0; i < originalVertices.Length; i++)
-        {
-            Vector3 v = originalVertices[i];
-
-            // Apply a simple bending effect
-            float offset = v.z * bendAmount;
-            v.x += Mathf.Sin(offset) * bendAmount;
-
-            modifiedVertices[i] = v;
-        }
-
-        // Apply new vertex positions
-        deformedMesh.vertices = modifiedVertices;
-        deformedMesh.RecalculateNormals();
-        deformedMesh.RecalculateBounds();
+        ApplyDeformation(value); // Apply the deformation based on slider value
     }
 }

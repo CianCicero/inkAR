@@ -4,26 +4,33 @@ using UnityEngine.XR.ARFoundation;
 public class TattooLoader : MonoBehaviour
 {
     public GameObject crabCubePrefab;  // Reference to the crab cube prefab
-    public Material[] tattooMaterials; // Array of materials corresponding to tattoos
+    public Texture2D[] tattooTextures; // Array of textures corresponding to tattoos
 
     void Start()
     {
         // Get the selected tattoo name from PlayerPrefs
         string selectedTattoo = PlayerPrefs.GetString("SelectedTattoo", "Tattoo1");  // Default to "Tattoo1" if no selection is made
 
-        // Find the corresponding material for the selected tattoo
-        foreach (Material material in tattooMaterials)
+        // Find the corresponding texture for the selected tattoo
+        foreach (Texture2D texture in tattooTextures)
         {
-            if (material.name == selectedTattoo)
+            if (texture.name == selectedTattoo)
             {
-                // Update the material of the prefab before it is instantiated
-                Renderer renderer = crabCubePrefab.GetComponent<Renderer>();
-                if (renderer != null)
-                {
-                    renderer.material = material;
-                }
+                // Apply the texture to the prefab's material
+                ApplyTextureToTattoo(texture);
                 break;
             }
+        }
+    }
+
+    // Method to apply the selected texture to the tattoo object's material
+    void ApplyTextureToTattoo(Texture2D texture)
+    {
+        Renderer renderer = crabCubePrefab.GetComponent<Renderer>();
+        if (renderer != null)
+        {
+            // Assuming the material already exists on the prefab, we apply the new texture to it
+            renderer.material.mainTexture = texture;
         }
     }
 }
