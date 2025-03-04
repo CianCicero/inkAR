@@ -1,0 +1,129 @@
+[33mcommit d5fdddbce2a7391e6934934009062ba345f864d6[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m)[m
+Author: mcciaa24 <cian.mc_cann@student.reutlingen-university.de>
+Date:   Tue Mar 4 19:23:44 2025 +0000
+
+    Integrated Firebase Storage and dynamic tattoo loading
+    - Integrated Firebase Storage SDK for image retrieval
+    - Added selection screen with dynamic tattoo buttons for tattoo selection
+    - Created custom script to pass selected tattoo URL and load AR scene
+    - Implemented loading visual to indicate texture download progress
+
+[33mcommit f8d6eea2cb109614530ffa93f93016802a2626f3[m[33m ([m[1;31morigin/main[m[33m)[m
+Author: mcciaa24 <cian.mc_cann@student.reutlingen-university.de>
+Date:   Mon Mar 3 19:51:29 2025 +0000
+
+    Update: Modify TattooLoader script to replace material texture instead of object material for dynamic tattoo updates
+
+[33mcommit 8be5b83b304f440398e7196f37548e60908b1c25[m
+Author: mcciaa24 <cian.mc_cann@student.reutlingen-university.de>
+Date:   Thu Feb 27 17:47:35 2025 +0000
+
+    Implemented tattoo selection and UI components for navigation
+    
+    - Reorganized scene initialization logic to support tattoo design selection
+    - Added a view with 3 tattoo design options for the user to choose from
+    - Created custom script to store selected design in player preferences and load AR scene
+    - Developed custom script to update tattoo material based on user’s selection upon AR scene initiation
+
+[33mcommit e89d8d90e2b193583eb1643ea980f03e5e829a0c[m
+Merge: 34de625 4ef0a58
+Author: mcciaa24 <cian.mc_cann@student.reutlingen-university.de>
+Date:   Tue Feb 25 16:40:01 2025 +0000
+
+    Merge branch 'main' of https://github.com/CianCicero/inkAR
+
+[33mcommit 34de625eeb30878f44c55d5f3f9af365762b6934[m
+Author: mcciaa24 <cian.mc_cann@student.reutlingen-university.de>
+Date:   Tue Feb 25 16:39:35 2025 +0000
+
+    Added custom script for rotation control
+
+[33mcommit 4ef0a58b081981b1c8f09f30ef69b77d08436cfb[m
+Author: Cian Mc Cann <123650093+CianCicero@users.noreply.github.com>
+Date:   Tue Feb 25 14:37:27 2025 +0000
+
+    Update README.md
+
+[33mcommit 826d1412378f63abc12f3f2315c0912debc7f6ad[m
+Author: mcciaa24 <cian.mc_cann@student.reutlingen-university.de>
+Date:   Thu Feb 20 17:58:06 2025 +0000
+
+    Updated ReferenceImage to real photo of the marker, as opposed to digital PNG, added debugging with logcat
+
+[33mcommit dd72cdbdce1e211e8466843e1d3f9795f72f1978[m
+Author: mcciaa24 <cian.mc_cann@student.reutlingen-university.de>
+Date:   Thu Feb 20 16:04:11 2025 +0000
+
+    Changed UpdateScale method to only affect X and Z axis
+
+[33mcommit adc2bc43a1f18fb6a2ebe0e2c630b0b31f4a0b13[m
+Author: mcciaa24 <cian.mc_cann@student.reutlingen-university.de>
+Date:   Thu Feb 20 16:00:46 2025 +0000
+
+    Added a UI slider to allow transformation of the tattoo
+
+[33mcommit df7866ecbef28380d892813917461ab9a3342e7f[m
+Author: mcciaa24 <cian.mc_cann@student.reutlingen-university.de>
+Date:   Thu Feb 20 13:00:46 2025 +0000
+
+    After reset to previous commit, changed tattoo object from 2D quad to 3D cube to allow for better dimensional control. Object placement and rotational tracking vastly improved
+
+[33mcommit aa8c7ba434454d4106073c70520660794eaa1a51[m
+Author: mcciaa24 <cian.mc_cann@student.reutlingen-university.de>
+Date:   Wed Jan 29 11:04:31 2025 +0000
+
+    Image marker successfully tracked. Tattoo object created when the camera views the marker, and moves to follow the marker
+
+[33mcommit df0cc27186d0afcaa3168a2f21c30d49bf597d03[m
+Author: mcciaa24 <cian.mc_cann@student.reutlingen-university.de>
+Date:   Tue Jan 28 13:47:55 2025 +0000
+
+    Added additional scene to test image marker tracking to improve placement
+
+[33mcommit f69362ce1c3b481e2b950d6767ce5a500bf27831[m
+Author: mcciaa24 <cian.mc_cann@student.reutlingen-university.de>
+Date:   Tue Jan 28 13:33:06 2025 +0000
+
+    Added a new scene with improved ray detection
+
+[33mcommit 2e8163f0bbe69358867369d1e1628170e0dbdd5d[m
+Author: mcciaa24 <cian.mc_cann@student.reutlingen-university.de>
+Date:   Thu Jan 9 16:44:15 2025 +0000
+
+    Added 2nd Tattoo
+
+[33mcommit 6e976d1f29c323a30080abc5c3cc628e72b470cb[m
+Author: mcciaa24 <cian.mc_cann@student.reutlingen-university.de>
+Date:   Mon Dec 16 11:36:34 2024 +0000
+
+    Added plane detection, placement of custom quad on detected plane not yet functional
+
+[33mcommit f5a16b501bdc76c4045fe60cba0d6089eda0135f[m
+Author: mcciaa24 <cian.mc_cann@student.reutlingen-university.de>
+Date:   Thu Dec 12 18:54:39 2024 +0000
+
+    Refine plane detection. Implement display tattoo PNG. Quad's position is hardcoded, not yet tracked.
+
+[33mcommit b07d7ddd2bb05c24ee108b51f008ff66c73b6351[m
+Author: mcciaa24 <cian.mc_cann@student.reutlingen-university.de>
+Date:   Fri Dec 6 03:08:51 2024 +0000
+
+    added textured plane for crab tattoo
+
+[33mcommit cc25953c0fdff7f2d1fa92b4ac59cfb3359e9df6[m
+Author: mcciaa24 <cian.mc_cann@student.reutlingen-university.de>
+Date:   Thu Nov 28 12:20:04 2024 +0000
+
+    Testing object placement
+
+[33mcommit dccc001ebeb4d1548962887643d6219cd73e53a7[m
+Author: mcciaa24 <cian.mc_cann@student.reutlingen-university.de>
+Date:   Wed Nov 13 17:07:21 2024 +0000
+
+    Initial commit - Unity AR mobile project setup
+
+[33mcommit 2ac039a0597753a5fc286d64f31dbf2bf6d5cd70[m
+Author: Cian Mc Cann <123650093+CianCicero@users.noreply.github.com>
+Date:   Wed Nov 13 15:43:31 2024 +0000
+
+    Initial commit
