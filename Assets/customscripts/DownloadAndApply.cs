@@ -3,14 +3,22 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.Networking;
 using System.Collections;
+using System.Collections.Generic;
+using TMPro;
+
+[System.Serializable]
+public class TattooData
+{
+    public string tattooName;  // Name of the tattoo
+    public string imageUrl;    // URL of the tattoo image
+}
 
 public class DownloadAndApply : MonoBehaviour
 {
-    public GameObject crabCubePrefab; 
-    public Button button1;             
-    public Button button2;            
-
-    public Button button3;
+    public GameObject crabCubePrefab;
+    public Button buttonPrefab;              // Prefab with both Image and Text components
+    public Transform buttonContainer;        // Where buttons will be instantiated
+    public List<TattooData> tattoos;        // List of TattooData objects with names and image URLs
 
     private Renderer cubeRenderer;
 
@@ -18,9 +26,23 @@ public class DownloadAndApply : MonoBehaviour
     {
         cubeRenderer = crabCubePrefab.GetComponent<Renderer>();
 
-        button1.onClick.AddListener(() => LoadTattooFromURL("https://firebasestorage.googleapis.com/v0/b/inkar-135da.firebasestorage.app/o/tattoos%2Fcrabtattoo.png?alt=media&token=718b5c13-4215-4442-b296-daf096e32d86"));
-        button2.onClick.AddListener(() => LoadTattooFromURL("https://firebasestorage.googleapis.com/v0/b/inkar-135da.firebasestorage.app/o/tattoos%2Fanchortattoo.png?alt=media&token=e2a7ac68-dae1-487d-a05f-1a9ca72f7c5d"));
-        button3.onClick.AddListener(() => LoadTattooFromURL("https://firebasestorage.googleapis.com/v0/b/inkar-135da.firebasestorage.app/o/tattoos%2Fhearttattoo.png?alt=media&token=a3faa233-271e-4f7e-8315-ef1dec693fa3"));
+        // Dynamically create buttons with URLs from TattooData
+        foreach (TattooData tattoo in tattoos)
+        {
+            Button button = Instantiate(buttonPrefab, buttonContainer); // Instantiate the button
+            TextMeshProUGUI buttonText = button.GetComponentInChildren<TextMeshProUGUI>();   // Get the Text component in the button
+            
+            if (buttonText != null)
+            {
+                buttonText.text = tattoo.tattooName; 
+            }
+            else
+            {
+                Debug.LogError("Button prefab does not contain a Text component.");
+            }
+
+            button.onClick.AddListener(() => LoadTattooFromURL(tattoo.imageUrl));  // Set URL for button click
+        }
     }
 
     public void LoadTattooFromURL(string imageUrl)
