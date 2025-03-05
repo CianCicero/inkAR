@@ -289,8 +289,8 @@ MonoBehaviour:
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
-  m_ChildAlignment: 0
-  m_Spacing: 15
+  m_ChildAlignment: 4
+  m_Spacing: 0
   m_ChildForceExpandWidth: 0
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
@@ -1640,7 +1640,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   crabCubePrefab: {fileID: 8944274773516998062, guid: 65595abd1f15f5a46805dc7618f49e3f,
     type: 3}
-  buttonPrefab: {fileID: 1824402687189356511, guid: 10b6f708d83fe694385df7fdfb5e0d34,
+  buttonPrefab: {fileID: 6463648609710618678, guid: c77883b4f5dae1043a196100b9c64112,
     type: 3}
   buttonContainer: {fileID: 37040217}
   tattoos:

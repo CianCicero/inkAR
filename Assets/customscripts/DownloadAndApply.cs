@@ -31,17 +31,44 @@ public class DownloadAndApply : MonoBehaviour
         {
             Button button = Instantiate(buttonPrefab, buttonContainer); // Instantiate the button
             TextMeshProUGUI buttonText = button.GetComponentInChildren<TextMeshProUGUI>();   // Get the Text component in the button
+            RawImage buttonRawImage = button.GetComponentInChildren<RawImage>();  // Get the RawImage component in the button
             
             if (buttonText != null)
             {
-                buttonText.text = tattoo.tattooName; 
+                buttonText.text = tattoo.tattooName;  // Set the text for the button
             }
             else
             {
                 Debug.LogError("Button prefab does not contain a Text component.");
             }
 
+            if (buttonRawImage != null)
+            {
+                StartCoroutine(LoadAndDisplayTattooImage(tattoo.imageUrl, buttonRawImage));  // Load and apply image to the button
+            }
+            else
+            {
+                Debug.LogError("Button prefab does not contain a RawImage component.");
+            }
+
             button.onClick.AddListener(() => LoadTattooFromURL(tattoo.imageUrl));  // Set URL for button click
+        }
+    }
+
+    // Load tattoo texture from the URL and apply to RawImage
+    private IEnumerator LoadAndDisplayTattooImage(string imageUrl, RawImage rawImage)
+    {
+        UnityWebRequest request = UnityWebRequestTexture.GetTexture(imageUrl);
+        yield return request.SendWebRequest();
+
+        if (request.result != UnityWebRequest.Result.Success)
+        {
+            Debug.LogError("Failed to load image: " + request.error);
+        }
+        else
+        {
+            Texture2D texture = ((DownloadHandlerTexture)request.downloadHandler).texture;
+            rawImage.texture = texture;  // Set the image texture to the RawImage component
         }
     }
 
