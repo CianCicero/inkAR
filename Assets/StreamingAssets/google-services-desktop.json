@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "512896912365",
+    "firebase_url": "https://inkar-135da-default-rtdb.firebaseio.com",
+    "project_id": "inkar-135da",
+    "storage_bucket": "inkar-135da.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:512896912365:android:e807735ff39f6fd4df75e4",
+        "android_client_info": {
+          "package_name": "com.unity.template.ar_mobile"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAIjRd_zX0hJHIIaVssqFV5esv-DVMRUSU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

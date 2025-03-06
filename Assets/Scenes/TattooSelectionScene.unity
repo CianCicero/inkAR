@@ -1643,13 +1643,7 @@ MonoBehaviour:
   buttonPrefab: {fileID: 6463648609710618678, guid: c77883b4f5dae1043a196100b9c64112,
     type: 3}
   buttonContainer: {fileID: 37040217}
-  tattoos:
-  - tattooName: HungryCrab
-    imageUrl: https://firebasestorage.googleapis.com/v0/b/inkar-135da.firebasestorage.app/o/tattoos%2Fcrabtattoo.png?alt=media&token=718b5c13-4215-4442-b296-daf096e32d86
-  - tattooName: Anchor
-    imageUrl: https://firebasestorage.googleapis.com/v0/b/inkar-135da.firebasestorage.app/o/tattoos%2Fanchortattoo.png?alt=media&token=e2a7ac68-dae1-487d-a05f-1a9ca72f7c5d
-  - tattooName: Heart
-    imageUrl: https://firebasestorage.googleapis.com/v0/b/inkar-135da.firebasestorage.app/o/tattoos%2Fhearttattoo.png?alt=media&token=a3faa233-271e-4f7e-8315-ef1dec693fa3
+  tattoos: []
 --- !u!4 &1349272007
 Transform:
   m_ObjectHideFlags: 0
