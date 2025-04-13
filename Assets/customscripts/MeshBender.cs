@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEngine.UI; // Import the UI namespace for working with sliders
+using UnityEngine.UI; 
 
 public class MeshBender : MonoBehaviour
 {
@@ -55,7 +55,6 @@ public class MeshBender : MonoBehaviour
         }
     }
 
-    // Method to apply deformation logic (e.g., bending) based on slider input
     public void ApplyDeformation(float deformationAmount)
     {
         // Apply deformation logic here based on the slider value (0-1)
@@ -72,6 +71,6 @@ public class MeshBender : MonoBehaviour
     // Called when the slider value changes
     private void OnSliderValueChanged(float value)
     {
-        ApplyDeformation(value); // Apply the deformation based on slider value
+        ApplyDeformation(value); 
     }
 }
