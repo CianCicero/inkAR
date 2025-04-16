@@ -215,4 +215,3 @@ public class FirebaseAuthManager : MonoBehaviour
         return exception.Message;
     }
 }
-

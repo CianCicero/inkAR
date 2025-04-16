@@ -15,23 +15,22 @@ public class ArtistProfileUIController : MonoBehaviour
     [Header("Panel References")]
     [SerializeField] private GameObject uploadPanel;
     [SerializeField] private GameObject loginPanel;
+    [SerializeField] private GameObject myTattoosPanel;
     
     [Header("Settings")]
-    [SerializeField] private string mainSceneName;
+    [SerializeField] private string mainSceneName = "MainARScene";
     
-    [Header("Dependencies")]
-    [SerializeField] private AuthManager authManager;
+    private AuthManager authManager;
     
     private void Start()
     {
+        // Find auth manager instance
+        authManager = AuthManager.Instance;
+        
         if (authManager == null)
         {
-            authManager = FindObjectOfType<AuthManager>();
-            if (authManager == null)
-            {
-                Debug.LogError("AuthManager not found in scene! Please add the AuthManager prefab.");
-                return;
-            }
+            Debug.LogError("AuthManager instance not found!");
+            return;
         }
         
         // Set up button listeners
@@ -44,46 +43,45 @@ public class ArtistProfileUIController : MonoBehaviour
         authManager.OnLogoutSuccess += HandleLogoutSuccess;
         
         // Set welcome text
-        if (AuthManager.Instance.IsLoggedIn)
+        if (authManager.IsLoggedIn)
         {
-            string artistName = AuthManager.Instance.DisplayName;
-            welcomeText.text = $"Welcome, {artistName}!";
+            welcomeText.text = $"Welcome, {authManager.DisplayName}!";
         }
     }
     
     private void OnEnable()
     {
         // Update welcome text whenever panel is shown
-        if (AuthManager.Instance.IsLoggedIn)
+        if (authManager != null && authManager.IsLoggedIn)
         {
-            string artistName = AuthManager.Instance.DisplayName;
-            welcomeText.text = $"Welcome, {artistName}!";
+            welcomeText.text = $"Welcome, {authManager.DisplayName}!";
         }
     }
     
     private void OnUploadButtonClicked()
     {
         // Show upload panel
-        if (uploadPanel != null)
-        {
-            uploadPanel.SetActive(true);
-            gameObject.SetActive(false);
-        }
-        else
-        {
-            Debug.LogError("Upload panel not assigned!");
-        }
+        authManager.ShowUploadPanel();
     }
     
     private void OnMyTattoosButtonClicked()
     {
-        Debug.Log("My Tattoos feature not implemented yet");
+        // Show My Tattoos panel
+        if (myTattoosPanel != null)
+        {
+            myTattoosPanel.SetActive(true);
+            gameObject.SetActive(false);
+        }
+        else
+        {
+            Debug.LogError("My Tattoos panel not assigned!");
+        }
     }
     
     private void OnARButtonClicked()
     {
-        // Load the main AR scene
-        SceneManager.LoadScene(mainSceneName);
+        // Go to main AR scene
+        authManager.GoToARScene();
     }
     
     private void OnLogoutButtonClicked()
@@ -94,16 +92,8 @@ public class ArtistProfileUIController : MonoBehaviour
     
     private void HandleLogoutSuccess()
     {
-        // Show login panel
-        gameObject.SetActive(false);
-        if (loginPanel != null)
-        {
-            loginPanel.SetActive(true);
-        }
-        else
-        {
-            Debug.LogError("Login panel not assigned!");
-        }
+        // The AuthManager will handle showing the login panel
+        Debug.Log("Logout successful");
     }
     
     private void OnDestroy()

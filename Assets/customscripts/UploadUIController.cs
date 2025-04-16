@@ -307,8 +307,8 @@ public class UploadUIController : MonoBehaviour
             { "tattooName", tattooName },
             { "artistName", artistName },
             { "tags", tagArray },
-            { "description", description },
-            { "imageURL", imageURL }
+            { "imageURL", imageURL },
+            { "artistId", firebaseAuthManager.UserId }
         };
         
         DocumentReference docRef = firestore.Collection("tattoometa").Document();
