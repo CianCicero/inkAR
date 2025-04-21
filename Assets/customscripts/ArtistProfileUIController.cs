@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class ArtistProfileUIController : MonoBehaviour
 {
@@ -34,17 +35,17 @@ public class ArtistProfileUIController : MonoBehaviour
         }
         
         // Set up button listeners
-        uploadButton.onClick.AddListener(OnUploadButtonClicked);
-        myTattoosButton.onClick.AddListener(OnMyTattoosButtonClicked);
-        arButton.onClick.AddListener(OnARButtonClicked);
-        logoutButton.onClick.AddListener(OnLogoutButtonClicked);
+        uploadButton.onClick.AddListener(() => StartCoroutine(OnUploadButtonClicked()));
+        myTattoosButton.onClick.AddListener(() => StartCoroutine(OnMyTattoosButtonClicked()));
+        arButton.onClick.AddListener(() => StartCoroutine(OnARButtonClicked()));
+        logoutButton.onClick.AddListener(() => StartCoroutine(OnLogoutButtonClicked()));
         
         // Subscribe to auth events
         authManager.OnLogoutSuccess += HandleLogoutSuccess;
         
         // Set welcome text
         if (authManager.IsLoggedIn)
-        {
+        {            
             welcomeText.text = $"Welcome, {authManager.DisplayName}!";
         }
     }
@@ -56,16 +57,35 @@ public class ArtistProfileUIController : MonoBehaviour
         {
             welcomeText.text = $"Welcome, {authManager.DisplayName}!";
         }
+
+        ResetButtonSizes();
+
+
+    }
+
+    public void ResetButtonSizes()
+    {
+        // Reset button sizes to default
+        uploadButton.transform.localScale = Vector3.one;
+        myTattoosButton.transform.localScale = Vector3.one;
+        arButton.transform.localScale = Vector3.one;
+        logoutButton.transform.localScale = Vector3.one;
     }
     
-    private void OnUploadButtonClicked()
+    private IEnumerator OnUploadButtonClicked()
     {
+        // Wait for 0.4 seconds
+        yield return new WaitForSeconds(0.4f);
+
         // Show upload panel
         authManager.ShowUploadPanel();
     }
     
-    private void OnMyTattoosButtonClicked()
+    private IEnumerator OnMyTattoosButtonClicked()
     {
+        // Wait for 0.4 seconds
+        yield return new WaitForSeconds(0.4f);
+
         // Show My Tattoos panel
         if (myTattoosPanel != null)
         {
@@ -78,14 +98,20 @@ public class ArtistProfileUIController : MonoBehaviour
         }
     }
     
-    private void OnARButtonClicked()
+    private IEnumerator OnARButtonClicked()
     {
+        // Wait for 0.4 seconds
+        yield return new WaitForSeconds(0.4f);
+
         // Go to main AR scene
         authManager.GoToARScene();
     }
     
-    private void OnLogoutButtonClicked()
+    private IEnumerator OnLogoutButtonClicked()
     {
+        // Wait for 0.4 seconds
+        yield return new WaitForSeconds(0.4f);
+
         // Log out the user
         authManager.LogoutArtist();
     }

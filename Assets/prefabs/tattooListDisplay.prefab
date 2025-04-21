@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6966298375940032112}
   - component: {fileID: 4619866866073224550}
   m_Layer: 0
-  m_Name: Title
+  m_Name: tattooListDisplay
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

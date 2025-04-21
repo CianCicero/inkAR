@@ -128,15 +128,13 @@ public class MyTattoosUIController : MonoBehaviour
 
         FirebaseAuthManager firebaseAuthManager = FindObjectOfType<FirebaseAuthManager>();
 
-
         string currentArtistID = "123456";
-
 
         // Query Firestore for tattoos belonging to the current artist
         if (firebaseAuthManager != null && firebaseAuthManager.IsLoggedIn)
-    {
-        currentArtistID = firebaseAuthManager.UserId;
-    }
+        {
+            currentArtistID = firebaseAuthManager.UserId;
+        }
         
         db.Collection("tattoometa")
             .WhereEqualTo("artistId", currentArtistID)
@@ -217,29 +215,34 @@ public class MyTattoosUIController : MonoBehaviour
             return;
         }
         
-        // Instantiate the prefab
+        // Instantiate the prefab - use the same approach as in DownloadAndApply
         GameObject item = Instantiate(tattooItemPrefab, tattooContainer);
         instantiatedItems.Add(item);
         
         // Find components in the prefab
-        TextMeshProUGUI nameText = item.transform.Find("NameText")?.GetComponent<TextMeshProUGUI>();
-        TextMeshProUGUI tagsText = item.transform.Find("TagsText")?.GetComponent<TextMeshProUGUI>();
-        TextMeshProUGUI dateText = item.transform.Find("DateText")?.GetComponent<TextMeshProUGUI>();
-        RawImage thumbnailImage = item.transform.Find("ThumbnailImage")?.GetComponent<RawImage>();
+        TextMeshProUGUI nameText = item.GetComponentInChildren<TextMeshProUGUI>();
+        RawImage thumbnailImage = item.GetComponentInChildren<RawImage>();
         Button editButton = item.transform.Find("EditButton")?.GetComponent<Button>();
         Button deleteButton = item.transform.Find("DeleteButton")?.GetComponent<Button>();
         
-        // Set up data in the UI
-        if (nameText != null) nameText.text = tattooData.tattooName;
-        if (tagsText != null && tattooData.tags != null) tagsText.text = string.Join(", ", tattooData.tags);
-        
-        // Date text will display the name of the artist for now
-        if (dateText != null) dateText.text = $"By: {tattooData.artistName}";
+        // Set up data in the UI - simplified to match DownloadAndApply approach
+        if (nameText != null)
+        {
+            nameText.text = tattooData.tattooName;
+        }
+        else
+        {
+            Debug.LogError("Tattoo item prefab does not contain a TextMeshProUGUI component.");
+        }
         
         // Load and display the thumbnail image
         if (thumbnailImage != null && !string.IsNullOrEmpty(tattooData.imageURL))
         {
             StartCoroutine(LoadAndDisplayTattooImage(tattooData.imageURL, thumbnailImage));
+        }
+        else
+        {
+            Debug.LogError("Tattoo item prefab does not contain a RawImage component.");
         }
         
         // Set up button actions
@@ -257,10 +260,10 @@ public class MyTattoosUIController : MonoBehaviour
     private IEnumerator LoadAndDisplayTattooImage(string imageURL, RawImage rawImage)
     {
         Debug.Log($"Loading image from URL: {imageURL}");
-        
+
         UnityWebRequest request = UnityWebRequestTexture.GetTexture(imageURL);
         yield return request.SendWebRequest();
-        
+
         if (request.result != UnityWebRequest.Result.Success)
         {
             Debug.LogError("Failed to load image: " + request.error);
@@ -268,7 +271,8 @@ public class MyTattoosUIController : MonoBehaviour
         else
         {
             Texture2D texture = ((DownloadHandlerTexture)request.downloadHandler).texture;
-            rawImage.texture = texture;
+            rawImage.texture = texture;  // Set the image texture to the RawImage component
+
             Debug.Log("Image loaded successfully.");
         }
     }
