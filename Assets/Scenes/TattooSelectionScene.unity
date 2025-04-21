@@ -1178,8 +1178,8 @@ Camera:
   m_GameObject: {fileID: 961739749}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -2080,12 +2080,12 @@ PrefabInstance:
     - target: {fileID: 8084255409043415750, guid: c89f30fffe863c3478217f50be0724af,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 268.88922
+      value: 270
       objectReference: {fileID: 0}
     - target: {fileID: 8084255409043415750, guid: c89f30fffe863c3478217f50be0724af,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -76.76196
+      value: -88
       objectReference: {fileID: 0}
     - target: {fileID: 8151345337808206563, guid: c89f30fffe863c3478217f50be0724af,
         type: 3}
@@ -2197,24 +2197,27 @@ MonoBehaviour:
   m_GameObject: {fileID: 8715317163832364536}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.5411765, g: 0.41960785, b: 0.41960785, a: 1}
+  m_Color: {r: 0, g: 0.05882353, b: 0.0627451, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: 2f2702968b2eb3c4988a793d73a95689, type: 3}
-  m_UVRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 1
-    height: 1
+  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &8715317163832364538 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8201000025477261095, guid: c89f30fffe863c3478217f50be0724af,
@@ -2234,14 +2237,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.5411765, g: 0.41960785, b: 0.41960785, a: 1}
+  m_Color: {r: 0, g: 0.05882353, b: 0.0627451, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: 2f2702968b2eb3c4988a793d73a95689, type: 3}
+  m_Texture: {fileID: 10906, guid: 0000000000000000f000000000000000, type: 0}
   m_UVRect:
     serializedVersion: 2
     x: 0
