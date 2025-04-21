@@ -17,30 +17,72 @@ public class RegisterUIController : MonoBehaviour
     [Header("Buttons")]
     [SerializeField] private Button registerButton;
     [SerializeField] private Button backButton;
+    [SerializeField] private Button emailPrivacyButton;
 
     [Header("Status Text")]
     [SerializeField] private TextMeshProUGUI statusText;
+    [SerializeField] private TextMeshProUGUI emailPrivacyText;
 
     // Firebase Authentication Manager
     private FirebaseAuthManager authManager;
+    
+    // Track if email is public
+    private bool isEmailPublic = true;
 
     private void Awake()
     {
         authManager = FindObjectOfType<FirebaseAuthManager>();
     }
 
-    
     private void Start()
     {
         registerButton.onClick.AddListener(OnRegisterButtonClick);
         backButton.onClick.AddListener(OnBackButtonClick);
         
+        // Set up privacy toggle button
+        if (emailPrivacyButton != null)
+        {
+            emailPrivacyButton.onClick.AddListener(ToggleEmailPrivacy);
+            UpdatePrivacyText();
+        }
+        
         statusText.text = "";
         
+        // Clear status text when input fields are selected
         emailField.onSelect.AddListener((_) => statusText.text = "");
         artistNameField.onSelect.AddListener((_) => statusText.text = "");
         passwordField.onSelect.AddListener((_) => statusText.text = "");
         confirmPasswordField.onSelect.AddListener((_) => statusText.text = "");
+    }
+    
+    private void ToggleEmailPrivacy()
+    {
+        isEmailPublic = !isEmailPublic;
+        UpdatePrivacyText();
+    }
+    
+    private void UpdatePrivacyText()
+    {
+        if (emailPrivacyText != null)
+        {
+            if (isEmailPublic)
+            {
+                emailPrivacyText.text = "Email Privacy: PUBLIC - Users can contact you";
+                emailPrivacyText.color = Color.green;
+            }
+            else
+            {
+                emailPrivacyText.text = "Email Privacy: PRIVATE - Your email will be hidden";
+                emailPrivacyText.color = Color.gray;
+            }
+        }
+        
+        // Update button text if it has text
+        TextMeshProUGUI buttonText = emailPrivacyButton.GetComponentInChildren<TextMeshProUGUI>();
+        if (buttonText != null)
+        {
+            buttonText.text = isEmailPublic ? "Make Email Private" : "Make Email Public";
+        }
     }
     
     private void OnRegisterButtonClick()
@@ -81,7 +123,13 @@ public class RegisterUIController : MonoBehaviour
         statusText.text = "Creating account...";
         
         // Call the auth manager to register new user
-        authManager.RegisterWithEmailPassword(emailField.text, passwordField.text, artistNameField.text, OnRegisterCompleted);
+        authManager.RegisterWithEmailPassword(
+            emailField.text, 
+            passwordField.text, 
+            artistNameField.text, 
+            isEmailPublic, // Pass privacy setting
+            OnRegisterCompleted
+        );
     }
     
     private void OnRegisterCompleted(bool success, string errorMessage)

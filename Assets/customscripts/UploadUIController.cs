@@ -255,7 +255,7 @@ public class UploadUIController : MonoBehaviour
             
             UpdateProgress(0.3f);
             
-            string fileName = $"{tattooName}_{artistName}.png";
+            string fileName = $"{tattooName}_{artistName}_{DateTime.UtcNow.Ticks}.png";
             StorageReference imageRef = storageRef.Child(fileName);
             
             var metadata = new MetadataChange
@@ -300,19 +300,32 @@ public class UploadUIController : MonoBehaviour
     
     private async Task UploadMetadataAsync(string tattooName, string artistName, string tags, string description, string imageURL)
     {
-        string[] tagArray = !string.IsNullOrEmpty(tags) ? tags.Split(',') : new string[0];
-        
-        Dictionary<string, object> tattooMetadata = new Dictionary<string, object>
-        {
-            { "tattooName", tattooName },
-            { "artistName", artistName },
-            { "tags", tagArray },
-            { "imageURL", imageURL },
-            { "artistId", firebaseAuthManager.UserId }
-        };
-        
-        DocumentReference docRef = firestore.Collection("tattoometa").Document();
-        await docRef.SetAsync(tattooMetadata);
+    // Process tags
+    string[] tagArray = !string.IsNullOrEmpty(tags) ? tags.Split(',') : new string[0];
+    
+    // Trim whitespace from tags
+    for (int i = 0; i < tagArray.Length; i++)
+    {
+        tagArray[i] = tagArray[i].Trim();
+    }
+    
+    // Get current user info
+    string artistId = firebaseAuthManager.UserId;
+    
+    Dictionary<string, object> tattooMetadata = new Dictionary<string, object>
+    {
+        { "tattooName", tattooName },
+        { "artistName", artistName },
+        { "artistId", artistId },
+        { "tags", tagArray },
+        { "imageURL", imageURL }
+    };
+    
+    // Add to Firestore
+    DocumentReference docRef = firestore.Collection("tattoometa").Document();
+    await docRef.SetAsync(tattooMetadata);
+    
+    Debug.Log($"Tattoo metadata uploaded with ID: {docRef.Id}");
     }
     
     private void OnBackButtonClick()

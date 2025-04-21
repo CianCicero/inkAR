@@ -17,7 +17,8 @@ public class TattooData
 {
     public string tattooName;  
     public string imageURL;    
-    public string artistName;  
+    public string artistName;
+    public string artistId;  // Added field to store the artist ID  
     public string[] tags;
     
     // Helper method to check if the tattoo matches the search query
@@ -183,11 +184,12 @@ public class DownloadAndApply : MonoBehaviour
                             tattooName = document.GetValue<string>("tattooName"),
                             imageURL = document.GetValue<string>("imageURL"),
                             artistName = document.GetValue<string>("artistName"),
-                            tags = document.GetValue<List<string>>("tags").ToArray()
+                            artistId = document.GetValue<string>("artistId"), // Get the artist ID
+                            tags = document.GetValue<List<string>>("tags")?.ToArray() ?? new string[0]
                         };
 
                         tattoos.Add(tattoo);
-                        Debug.Log($"Tattoo name: {tattoo.tattooName}, Image URL: {tattoo.imageURL}");
+                        Debug.Log($"Tattoo name: {tattoo.tattooName}, Artist: {tattoo.artistName}, Artist ID: {tattoo.artistId}");
                     }
                     catch (Exception ex)
                     {
@@ -289,7 +291,7 @@ public class DownloadAndApply : MonoBehaviour
     // Create a button for a specific tattoo
     void CreateTattooButton(TattooData tattoo)
     {
-        Debug.Log($"Creating button for tattoo: {tattoo.tattooName} with image URL: {tattoo.imageURL}");
+        Debug.Log($"Creating button for tattoo: {tattoo.tattooName} with image URL: {tattoo.imageURL}, Artist ID: {tattoo.artistId}");
 
         Button button = Instantiate(buttonPrefab, buttonContainer); // Instantiate the button
         instantiatedButtons.Add(button.gameObject);
@@ -315,7 +317,8 @@ public class DownloadAndApply : MonoBehaviour
             Debug.LogError("Button prefab does not contain a RawImage component.");
         }
 
-        button.onClick.AddListener(() => LoadTattooFromURL(tattoo.imageURL));  // Set URL for button click
+        // Pass the artist ID along with the image URL when the button is clicked
+        button.onClick.AddListener(() => LoadTattooFromURL(tattoo.imageURL, tattoo.artistId, tattoo.tattooName));
     }
 
     // Load and display tattoo image on button's RawImage
@@ -339,9 +342,17 @@ public class DownloadAndApply : MonoBehaviour
         }
     }
 
-    // Load tattoo texture to apply on the AR object
-    public void LoadTattooFromURL(string imageURL)
+    // Load tattoo texture to apply on the AR object and store artist ID for later use
+    public void LoadTattooFromURL(string imageURL, string artistId, string tattooName)
     {
+        // Store data in PlayerPrefs for use in the AR scene
+        PlayerPrefs.SetString("CurrentArtistId", artistId);
+        PlayerPrefs.SetString("SelectedTattooURL", imageURL);
+        PlayerPrefs.SetString("SelectedTattooName", tattooName);
+        PlayerPrefs.Save();
+        
+        Debug.Log($"Stored artist ID in PlayerPrefs: {artistId}");
+        
         StartCoroutine(LoadAndApplyTexture(imageURL));
     }
 

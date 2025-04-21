@@ -1,9 +1,12 @@
 using UnityEngine;
 using Firebase;
 using Firebase.Auth;
+using Firebase.Firestore;
+using Firebase.Extensions;
 using System;
 using System.Threading.Tasks;
 using System.Collections;
+using System.Collections.Generic;
 
 /// <summary>
 /// Manager for Firebase Authentication operations
@@ -13,6 +16,7 @@ public class FirebaseAuthManager : MonoBehaviour
     // Firebase variables
     private FirebaseAuth auth;
     private FirebaseUser user;
+    private FirebaseFirestore db;
     
     // Delegate for authentication callbacks
     public delegate void AuthCallback(bool success, string errorMessage);
@@ -47,6 +51,7 @@ public class FirebaseAuthManager : MonoBehaviour
         {
             // Initialize Firebase Auth
             auth = FirebaseAuth.DefaultInstance;
+            db = FirebaseFirestore.DefaultInstance;
             
             // Set up auth state changed callback
             auth.StateChanged += AuthStateChanged;
@@ -131,44 +136,106 @@ public class FirebaseAuthManager : MonoBehaviour
     }
     
     // Register with email and password
-    public void RegisterWithEmailPassword(string email, string password, string displayName, AuthCallback callback)
-    {
-        auth.CreateUserWithEmailAndPasswordAsync(email, password).ContinueWith(task => {
-            // Return to the main thread
-            UnityMainThreadDispatcher.Instance().Enqueue(() => {
-                if (task.IsCanceled)
-                {
-                    callback(false, "Registration was cancelled.");
-                    return;
-                }
-                
-                if (task.IsFaulted)
-                {
-                    callback(false, GetErrorMessage(task.Exception));
-                    return;
-                }
-                
-                // Registration successful
-                FirebaseUser newUser = auth.CurrentUser; 
-                
-                UserProfile profile = new UserProfile
-                {
-                    DisplayName = displayName
-                };
-                
-                newUser.UpdateUserProfileAsync(profile).ContinueWith(profileTask => {
-                    // Return to the main thread
-                    UnityMainThreadDispatcher.Instance().Enqueue(() => {
-                        if (profileTask.IsCanceled || profileTask.IsFaulted)
-                        {
-                            Debug.LogWarning("Setting display name failed, but user was created.");
-                        }
-                        
-                        callback(true, null);
-                    });
+public void RegisterWithEmailPassword(string email, string password, string displayName, bool showPublicEmail, AuthCallback callback)
+{
+    auth.CreateUserWithEmailAndPasswordAsync(email, password).ContinueWith(task => {
+        // Return to the main thread
+        UnityMainThreadDispatcher.Instance().Enqueue(() => {
+            if (task.IsCanceled)
+            {
+                callback(false, "Registration was cancelled.");
+                return;
+            }
+            
+            if (task.IsFaulted)
+            {
+                callback(false, GetErrorMessage(task.Exception));
+                return;
+            }
+            
+            // Registration successful
+            FirebaseUser newUser = auth.CurrentUser; 
+            
+            UserProfile profile = new UserProfile
+            {
+                DisplayName = displayName
+            };
+            
+            newUser.UpdateUserProfileAsync(profile).ContinueWith(profileTask => {
+                // Return to the main thread
+                UnityMainThreadDispatcher.Instance().Enqueue(() => {
+                    if (profileTask.IsCanceled || profileTask.IsFaulted)
+                    {
+                        Debug.LogWarning("Setting display name failed, but user was created.");
+                    }
+                    
+                    // Store user profile in Firestore with the email privacy setting
+                    StoreUserProfileInFirestore(newUser, displayName, showPublicEmail);
+                    
+                    callback(true, null);
                 });
             });
         });
+    });
+}
+    
+    // Store user profile information in Firestore
+private void StoreUserProfileInFirestore(FirebaseUser user, string displayName, bool showPublicEmail)
+{
+    if (user == null) return;
+    
+    // Create user profile document
+    Dictionary<string, object> userData = new Dictionary<string, object>
+    {
+        { "displayName", displayName },
+        { "email", user.Email },
+        { "userId", user.UserId },
+        { "showPublicEmail", showPublicEmail }, // Use the parameter value
+        { "publicEmail", user.Email }, // Email that can be shown publicly
+        { "createdAt", Timestamp.GetCurrentTimestamp() }
+    };
+    
+    // Store in Firestore
+    db.Collection("users").Document(user.UserId)
+        .SetAsync(userData)
+        .ContinueWithOnMainThread(task => {
+            if (task.IsCanceled || task.IsFaulted)
+            {
+                Debug.LogError($"Error storing user profile: {task.Exception}");
+            }
+            else
+            {
+                Debug.Log("User profile stored in Firestore");
+            }
+        });
+}
+    
+    // Update user's email privacy settings
+    public void UpdateEmailPrivacySettings(bool showPublicEmail, AuthCallback callback)
+    {
+        if (!IsLoggedIn)
+        {
+            callback(false, "User not logged in");
+            return;
+        }
+        
+        Dictionary<string, object> updates = new Dictionary<string, object>
+        {
+            { "showPublicEmail", showPublicEmail }
+        };
+        
+        db.Collection("users").Document(UserId)
+            .UpdateAsync(updates)
+            .ContinueWithOnMainThread(task => {
+                if (task.IsCanceled || task.IsFaulted)
+                {
+                    callback(false, "Failed to update privacy settings: " + GetErrorMessage(task.Exception));
+                }
+                else
+                {
+                    callback(true, null);
+                }
+            });
     }
     
     // Sign out
