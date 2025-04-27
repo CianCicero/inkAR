@@ -225,6 +225,8 @@ public class UploadUIController : MonoBehaviour
                     // Show complete
                     progressSlider.value = 1.0f;
                     statusText.text = "Upload completed successfully!";
+
+                    ResetForm();
                     
                     // Go back to profile after delay
                     StartCoroutine(ReturnToProfile(1.5f));

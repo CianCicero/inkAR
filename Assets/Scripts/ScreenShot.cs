@@ -7,6 +7,9 @@ public class ScreenShot : MonoBehaviour
     [Header("UI to Hide During Screenshot")]
     [SerializeField] private GameObject[] uiToHide;
 
+    [Header("UI to Show During Screenshot")]
+    [SerializeField] private GameObject[] uiToShow;
+
     public void TakeScreenshotToGallery()
     {
         StartCoroutine(CaptureAndSave());
@@ -18,6 +21,11 @@ public class ScreenShot : MonoBehaviour
         foreach (var go in uiToHide)
         {
             if (go != null) go.SetActive(false);
+        }
+
+        foreach(var go in uiToShow)
+        {
+            if (go != null) go.SetActive(true);
         }
 
         yield return new WaitForEndOfFrame();
@@ -54,6 +62,11 @@ public class ScreenShot : MonoBehaviour
         foreach (var go in uiToHide)
         {
             if (go != null) go.SetActive(true);
+        }
+
+        foreach(var go in uiToShow)
+        {
+            if (go != null) go.SetActive(false);
         }
     }
 }

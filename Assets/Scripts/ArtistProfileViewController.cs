@@ -180,7 +180,7 @@ public class ArtistProfileViewController : MonoBehaviour
                contactButton.onClick.AddListener(() => {
                 // Create email intent
                 string subject = "Tattoo Inquiry";
-                string body = $"Hi {name},\n\nI saw your design in the InkAR and I'm interested in discussing a tattoo.\n\n";
+                string body = $"Hi {name},\n\nI saw your design in the InkAR app and I'm interested in booking a session. I have attached the placement reference to this email!\n\n";
 
                 // Encode the parameters (fix + to %20 for Android mailto)
                 string encodedSubject = UnityWebRequest.EscapeURL(subject).Replace("+", "%20");

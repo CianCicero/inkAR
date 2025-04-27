@@ -67,17 +67,16 @@ public class RegisterUIController : MonoBehaviour
         {
             if (isEmailPublic)
             {
-                emailPrivacyText.text = "Email Privacy: PUBLIC - Users can contact you";
+                emailPrivacyText.text = "PUBLIC - Users can contact you";
                 emailPrivacyText.color = Color.green;
             }
             else
             {
-                emailPrivacyText.text = "Email Privacy: PRIVATE - Your email will be hidden";
+                emailPrivacyText.text = "PRIVATE - Your email will be hidden";
                 emailPrivacyText.color = Color.gray;
             }
         }
         
-        // Update button text if it has text
         TextMeshProUGUI buttonText = emailPrivacyButton.GetComponentInChildren<TextMeshProUGUI>();
         if (buttonText != null)
         {
