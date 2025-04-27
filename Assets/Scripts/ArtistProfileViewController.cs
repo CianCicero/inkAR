@@ -182,7 +182,7 @@ public class ArtistProfileViewController : MonoBehaviour
                 string subject = "Tattoo Inquiry";
                 string body = $"Hi {name},\n\nI saw your design in the InkAR app and I'm interested in booking a session. I have attached the placement reference to this email!\n\n";
 
-                // Encode the parameters (fix + to %20 for Android mailto)
+                // Encode the parameters
                 string encodedSubject = UnityWebRequest.EscapeURL(subject).Replace("+", "%20");
                 string encodedBody = UnityWebRequest.EscapeURL(body).Replace("+", "%20");
 

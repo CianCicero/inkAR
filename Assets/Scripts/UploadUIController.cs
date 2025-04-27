@@ -107,7 +107,6 @@ public class UploadUIController : MonoBehaviour
         #endif
     }
     
-    // Mock image selection for testing in editor
     private IEnumerator MockSelectImage()
     {
         // Create a test texture

@@ -29,7 +29,6 @@ public class TattooLoader : MonoBehaviour
         Renderer renderer = crabCubePrefab.GetComponent<Renderer>();
         if (renderer != null)
         {
-            // Assuming the material already exists on the prefab, we apply the new texture to it
             renderer.material.mainTexture = texture;
         }
     }

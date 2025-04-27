@@ -18,7 +18,7 @@ public class TattooData
     public string tattooName;  
     public string imageURL;    
     public string artistName;
-    public string artistId;  // Added field to store the artist ID  
+    public string artistId;  
     public string[] tags;
     
     // Helper method to check if the tattoo matches the search query
@@ -93,7 +93,6 @@ public class DownloadAndApply : MonoBehaviour
     
     private void OnSearchInputEnd(string value)
     {
-        // Check for Enter key in a way compatible with the new Input System
         if (UnityEngine.InputSystem.Keyboard.current != null && 
             (UnityEngine.InputSystem.Keyboard.current.enterKey.wasPressedThisFrame || 
              UnityEngine.InputSystem.Keyboard.current.numpadEnterKey.wasPressedThisFrame))
@@ -124,7 +123,7 @@ public class DownloadAndApply : MonoBehaviour
         {
             currentPage++;
             DisplayCurrentPage();
-            UpdatePageControls(); // Make sure to update page controls after changing page
+            UpdatePageControls();
         }
     }
     
@@ -134,7 +133,7 @@ public class DownloadAndApply : MonoBehaviour
         {
             currentPage--;
             DisplayCurrentPage();
-            UpdatePageControls(); // Make sure to update page controls after changing page
+            UpdatePageControls(); 
         }
     }
 
@@ -144,7 +143,7 @@ public class DownloadAndApply : MonoBehaviour
         FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task =>
         {
             FirebaseApp app = FirebaseApp.DefaultInstance;
-            db = FirebaseFirestore.DefaultInstance; // Ensure using the default Firestore instance
+            db = FirebaseFirestore.DefaultInstance; 
             Debug.Log("Firebase Initialized");
 
             FetchTattooData();

@@ -56,7 +56,7 @@ public class ScreenShot : MonoBehaviour
         Debug.Log("Screenshot saved to gallery: " + galleryPath);
 #endif
 
-        yield return new WaitForSeconds(0.3f); // Just in case
+        yield return new WaitForSeconds(0.3f); 
 
         // Show UI elements again
         foreach (var go in uiToHide)

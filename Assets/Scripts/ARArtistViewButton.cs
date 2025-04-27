@@ -2,13 +2,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-/// <summary>
-/// Simple button to view the artist's profile from the AR scene
-/// </summary>
 public class ARArtistViewButton : MonoBehaviour
 {
     [SerializeField] private Button viewArtistButton;
-    [SerializeField] private string artistProfileSceneName = "ArtistProfileScene"; // Name of your artist profile scene
+    [SerializeField] private string artistProfileSceneName = "ArtistProfileScene";
     
     private void Start()
     {
@@ -19,11 +16,9 @@ public class ARArtistViewButton : MonoBehaviour
         {
             viewArtistButton.onClick.AddListener(OnViewArtistButtonClicked);
             
-            // Check if we have an artist ID in PlayerPrefs
             string artistId = PlayerPrefs.GetString("CurrentArtistId", "");
             if (string.IsNullOrEmpty(artistId))
             {
-                // No artist ID available, disable the button
                 viewArtistButton.interactable = false;
                 Debug.LogWarning("No artist ID found. View Artist button disabled.");
             }
@@ -36,7 +31,7 @@ public class ARArtistViewButton : MonoBehaviour
     
     private void OnViewArtistButtonClicked()
     {
-        // The artistId is already in PlayerPrefs, so we just need to load the artist profile scene
+        // The artistId is already in PlayerPrefs
         SceneManager.LoadScene(artistProfileSceneName);
     }
     

@@ -11,7 +11,6 @@ using UnityEngine.Networking;
 using System.Linq;
 using System;
 
-// Extended TattooData to include documentId for deletion
 [System.Serializable]
 public class ArtistTattooItem
 {
@@ -215,7 +214,6 @@ public class MyTattoosUIController : MonoBehaviour
             return;
         }
         
-        // Instantiate the prefab - use the same approach as in DownloadAndApply
         GameObject item = Instantiate(tattooItemPrefab, tattooContainer);
         instantiatedItems.Add(item);
         
@@ -280,18 +278,12 @@ public class MyTattoosUIController : MonoBehaviour
     private void OnEditTattooClicked(ArtistTattooItem tattooData)
     {
         Debug.Log($"Edit tattoo: {tattooData.tattooName}");
-        
-        // This would open the upload/edit panel with this tattoo pre-loaded
-        // You could implement this later with the upload panel functionality
     }
     
     private void OnDeleteTattooClicked(ArtistTattooItem tattooData)
     {
         Debug.Log($"Delete tattoo: {tattooData.tattooName}");
         
-        // Show a confirmation dialog
-        // For a simple implementation, just call DeleteTattoo directly
-        // In a production app, you'd want to show a confirmation dialog first
         DeleteTattoo(tattooData);
     }
     
@@ -328,7 +320,6 @@ public class MyTattoosUIController : MonoBehaviour
                 {
                     Debug.Log($"Tattoo '{tattooData.tattooName}' deleted successfully");
                     
-                    // Also delete the image from Firebase Storage if needed
                     if (!string.IsNullOrEmpty(tattooData.imageURL))
                     {
                         try {

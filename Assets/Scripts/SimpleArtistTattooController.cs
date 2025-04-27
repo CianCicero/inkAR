@@ -239,7 +239,6 @@ public class SimpleArtistTattooController : MonoBehaviour
         }
     }
     
-    // Public method to reload tattoos (can be called from outside this script)
     public void RefreshTattoos()
     {
         LoadArtistTattoos();

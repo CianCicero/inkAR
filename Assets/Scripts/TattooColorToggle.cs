@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class TattooColorToggle : MonoBehaviour
 {
     public Button colorToggleButton;  // Button to toggle the color
-    public GameObject tattooCube;     // The cube with the tattoo (the object holding the material)
+    public GameObject tattooCube;     // The cube with the tattoo
 
     private Material tattooMaterial;  // Material of the cube
     private bool isBlack = true;      // Track if the tattoo is currently black or white
