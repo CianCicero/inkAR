@@ -6,11 +6,16 @@
 
 - **Browse and try on tattoos in AR**: Users can view tattoos on their body using AR.
 - **Artist support**: Tattoo artists can upload their designs and share them with customers. Tattoos are converted from PNG to AR objects automatically.
+- **Toggle Privacy**: Artists can disable public access to their contact information.
 - **Scaling**: Users can scale tattoos in real-time.
 - **Screenshot functionality**: Hide UI and capture images of placement and save them to the gallery.
 - **Communication**: Send an email with our template directly to artists with the click of a button.
 
 ---
+
+## Video Demo
+
+A video demo of InkAR, covering artist and client uses, can be found [here](https://youtu.be/YEKMaF0nVBQ).
 
 ## Installation Guide
 
